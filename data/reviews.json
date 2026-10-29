@@ -1,0 +1,44 @@
+[
+  {
+    "name": "Yasmin Alam",
+    "comment": "Really fast delivery and the product quality is exactly what I expected. Will definitely order again from SakibsMart.",
+    "rating": 5,
+    "date": "May 2, 2025",
+    "avatar": "YA"
+  },
+  {
+    "name": "Tasfia Alam",
+    "comment": "Very nice Sakib. Customer service was also very responsive.",
+    "rating": 5,
+    "date": "April 28, 2026",
+    "avatar": "TA"
+  },
+  {
+    "name": "Shah Alam",
+    "comment": "Honestly one of the best online shopping experiences I've had locally. Prices are fair and shipping is quick.",
+    "rating": 5,
+    "date": "November 21, 2025",
+    "avatar": "SA"
+  },
+  {
+    "name": "ITN NAZRUL ISLAM",
+    "comment": "Wow very nice Hasan.",
+    "rating": 4,
+    "date": "April 15, 2025",
+    "avatar": "NI"
+  },
+  {
+    "name": "Zubayer Khan Adil",
+    "comment": "Website is clean and easy to use on my phone. The product images load quickly and descriptions are accurate.",
+    "rating": 5,
+    "date": "April 9, 2026",
+    "avatar": "ZA"
+  },
+  {
+    "name": "Anika Raju",
+    "comment": "I loved the wishlist feature — saved a bunch of products and came back to buy them later. Really useful addition.",
+    "rating": 4,
+    "date": "March 30, 2026",
+    "avatar": "AR"
+  }
+]

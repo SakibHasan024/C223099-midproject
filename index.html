@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SakibsMart - Online Product Store</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            heading: ['Syne', 'sans-serif'],
+            body: ['DM Sans', 'sans-serif'],
+          },
+          colors: {
+            primary: '#2563eb',
+            dark: '#0f172a',
+            card: '#ffffff',
+            muted: '#dbeafe',
+            accent: '#f59e0b',
+          }
+        }
+      }
+    }
+  </script>
+</head>
+<body class="bg-slate-50 dark:bg-slate-950 text-slate-800 dark:text-slate-100 font-body">
+
+  <!-- NAVBAR -->
+  <nav id="navbar" class="fixed top-0 left-0 right-0 z-50 bg-white/90 dark:bg-slate-950/90 border-b border-slate-200 dark:border-slate-800 backdrop-blur-md transition duration-300">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-20">
+        <a href="#home" class="font-heading text-2xl font-800 tracking-tight text-slate-900 dark:text-white">
+          Sakibs<span class="text-blue-600 dark:text-cyan-400">Mart</span>
+        </a>
+
+        <div class="hidden md:flex items-center gap-2 rounded-full border border-slate-200 bg-slate-100/80 p-1.5 shadow-sm dark:border-slate-700 dark:bg-slate-900/80">
+          <a href="#home" class="px-4 py-2 text-xs font-heading uppercase tracking-[0.2em] rounded-full text-slate-700 transition dark:text-slate-200" data-section="home">Home</a>
+          <a href="#products" class="px-4 py-2 text-xs font-heading uppercase tracking-[0.2em] rounded-full text-slate-500 transition hover:text-slate-900 dark:text-slate-400 dark:hover:text-white" data-section="products">Products</a>
+          <a href="#reviews" class="px-4 py-2 text-xs font-heading uppercase tracking-[0.2em] rounded-full text-slate-500 transition hover:text-slate-900 dark:text-slate-400 dark:hover:text-white" data-section="reviews">Reviews</a>
+          <a href="#contact" class="px-4 py-2 text-xs font-heading uppercase tracking-[0.2em] rounded-full text-slate-500 transition hover:text-slate-900 dark:text-slate-400 dark:hover:text-white" data-section="contact">Contact</a>
+        </div>
+
+        <div class="flex items-center gap-3">
+          <div class="hidden sm:flex items-center gap-2 rounded-full bg-slate-100 px-3 py-2 text-sm shadow-sm dark:bg-slate-800">
+            <span class="text-amber-500 font-heading font-700">৳</span>
+            <span id="balance-display" class="font-heading font-700 text-slate-900 dark:text-white">1000</span>
+            <button onclick="openAddMoney()" class="ml-1 text-[10px] font-heading uppercase tracking-[0.2em] text-blue-600 dark:text-cyan-300">Add</button>
+          </div>
+
+          <button id="theme-toggle" onclick="toggleTheme()" class="flex h-10 w-10 items-center justify-center rounded-full bg-slate-100 text-lg shadow-sm hover:bg-slate-200 transition dark:bg-slate-800 dark:hover:bg-slate-700">
+            <span id="theme-icon">☀️</span>
+          </button>
+
+          <button id="login-btn" onclick="openLoginModal()" class="hidden sm:inline-flex items-center justify-center rounded-full bg-blue-600 px-4 py-2 text-[10px] font-heading uppercase tracking-[0.2em] text-white shadow-sm hover:bg-blue-700 transition">
+            Login
+          </button>
+
+          <div id="user-display" class="hidden items-center gap-2 rounded-full bg-emerald-50 px-3 py-2 text-sm shadow-sm dark:bg-emerald-900/30">
+            <span>👤</span>
+            <span id="user-name" class="font-heading font-700 text-emerald-800 dark:text-emerald-200"></span>
+            <button onclick="logout()" class="text-[10px] font-heading uppercase tracking-[0.2em] text-emerald-700 dark:text-emerald-300">Out</button>
+          </div>
+
+          <button onclick="openCart()" class="relative h-11 w-11 rounded-full bg-slate-900 text-white shadow-sm transition hover:scale-105 dark:bg-slate-800">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13l-1.4 7h12.8M7 13L5.4 5M17 21a1 1 0 100-2 1 1 0 000 2zm-8 0a1 1 0 100-2 1 1 0 000 2z"/>
+            </svg>
+            <span id="cart-count" class="absolute -right-1 -top-1 flex h-5 w-5 items-center justify-center rounded-full bg-amber-400 text-[10px] font-heading font-700 text-slate-900 hidden">0</span>
+          </button>
+
+          <button id="hamburger" onclick="toggleMobileMenu()" class="flex h-10 w-10 items-center justify-center rounded-full border border-slate-200 bg-slate-100 md:hidden dark:border-slate-700 dark:bg-slate-800">
+            <span class="hamburger-line block h-0.5 w-5 bg-slate-700 dark:bg-white"></span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div id="mobile-menu" class="hidden border-t border-slate-200 bg-white dark:border-slate-800 dark:bg-slate-950 md:hidden">
+      <ul class="mx-auto flex max-w-7xl flex-col gap-2 px-4 py-4">
+        <li><a href="#home" class="block rounded-xl px-3 py-2 text-sm font-heading uppercase tracking-[0.2em] text-slate-700 transition hover:bg-slate-100 dark:text-slate-200 dark:hover:bg-slate-800" data-section="home" onclick="closeMobileMenu()">Home</a></li>
+        <li><a href="#products" class="block rounded-xl px-3 py-2 text-sm font-heading uppercase tracking-[0.2em] text-slate-700 transition hover:bg-slate-100 dark:text-slate-200 dark:hover:bg-slate-800" data-section="products" onclick="closeMobileMenu()">Products</a></li>
+        <li><a href="#reviews" class="block rounded-xl px-3 py-2 text-sm font-heading uppercase tracking-[0.2em] text-slate-700 transition hover:bg-slate-100 dark:text-slate-200 dark:hover:bg-slate-800" data-section="reviews" onclick="closeMobileMenu()">Reviews</a></li>
+        <li><a href="#contact" class="block rounded-xl px-3 py-2 text-sm font-heading uppercase tracking-[0.2em] text-slate-700 transition hover:bg-slate-100 dark:text-slate-200 dark:hover:bg-slate-800" data-section="contact" onclick="closeMobileMenu()">Contact</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- HOME SECTION -->
+  <section id="home" class="pt-16">
+    <!-- BANNER / SLIDER -->
+    <div class="relative overflow-hidden h-[480px] md:h-[560px]">
+      <div id="banner-slides" class="flex transition-transform duration-700 h-full">
+        <!-- Slide 1 -->
+        <div class="slide min-w-full h-full relative flex items-center" style="background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 35%, #eff6ff 100%);">
+          <div class="max-w-7xl mx-auto px-8 w-full">
+            <p class="text-primary font-heading uppercase tracking-widest text-sm mb-3">New Arrivals 2025</p>
+            <h2 class="font-heading font-800 text-5xl md:text-7xl leading-none mb-6">Shop Smart,<br/><span class="text-primary">Live Better</span></h2>
+            <p class="text-gray-400 font-body max-w-md mb-8">Discover thousands of products at unbeatable prices. Free delivery on orders above ৳2000.</p>
+            <a href="#products" class="inline-block bg-primary text-white font-heading font-600 px-8 py-3 rounded-full hover:bg-red-600 transition-colors uppercase tracking-widest text-sm">Shop Now</a>
+          </div>
+          <div class="absolute right-0 top-0 bottom-0 w-1/3 bg-gradient-to-l from-primary/10 to-transparent hidden md:block"></div>
+        </div>
+
+        <!-- Slide 2 -->
+        <div class="slide min-w-full h-full relative flex items-center" style="background: linear-gradient(135deg, #e0f2fe 0%, #dbeafe 35%, #f8fafc 100%);">
+          <div class="max-w-7xl mx-auto px-8 w-full">
+            <p class="text-blue-600 font-heading uppercase tracking-widest text-sm mb-3">Flash Sale ⚡</p>
+            <h2 class="font-heading font-800 text-5xl md:text-7xl leading-none mb-6 text-slate-900">Up to <span class="text-blue-600">50% Off</span><br/>Electronics</h2>
+            <p class="text-slate-600 font-body max-w-md mb-8">Limited time deals on laptops, phones, and accessories. Use code SMART10 for extra 10% off.</p>
+            <a href="#products" class="inline-block bg-blue-600 text-white font-heading font-600 px-8 py-3 rounded-full hover:bg-blue-700 transition-colors uppercase tracking-widest text-sm">Grab Deals</a>
+          </div>
+        </div>
+
+        <!-- Slide 3 -->
+        <div class="slide min-w-full h-full relative flex items-center" style="background: linear-gradient(135deg, #fff7ed 0%, #fef3c7 35%, #fffbeb 100%);">
+          <div class="max-w-7xl mx-auto px-8 w-full">
+            <p class="text-amber-600 font-heading uppercase tracking-widest text-sm mb-3">Member Benefits</p>
+            <h2 class="font-heading font-800 text-5xl md:text-7xl leading-none mb-6 text-slate-900">Free Shipping<br/>on <span class="text-amber-600">Everything</span></h2>
+            <p class="text-slate-600 font-body max-w-md mb-8">Join SakibsMart today and get free shipping on all orders, every day. No minimum required.</p>
+            <a href="#products" class="inline-block bg-amber-500 text-white font-heading font-600 px-8 py-3 rounded-full hover:bg-amber-600 transition-colors uppercase tracking-widest text-sm">Join Now</a>
+          </div>
+        </div>
+
+        <!-- Slide 4 -->
+        <div class="slide min-w-full h-full relative flex items-center" style="background: linear-gradient(135deg, #ecfdf5 0%, #d1fae5 35%, #f0fdf4 100%);">
+          <div class="max-w-7xl mx-auto px-8 w-full">
+            <p class="text-emerald-600 font-heading uppercase tracking-widest text-sm mb-3">Eco Friendly 🌿</p>
+            <h2 class="font-heading font-800 text-5xl md:text-7xl leading-none mb-6 text-slate-900">Sustainable<br/><span class="text-emerald-600">Products</span></h2>
+            <p class="text-slate-600 font-body max-w-md mb-8">Shop our curated collection of eco-friendly and sustainable products. Good for you, good for the planet.</p>
+            <a href="#products" class="inline-block bg-emerald-600 text-white font-heading font-600 px-8 py-3 rounded-full hover:bg-emerald-700 transition-colors uppercase tracking-widest text-sm">Explore</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Nav Buttons -->
+      <button onclick="prevSlide()" class="absolute left-4 top-1/2 -translate-y-1/2 w-10 h-10 bg-white/10 hover:bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center transition-colors">
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+      </button>
+      <button onclick="nextSlide()" class="absolute right-4 top-1/2 -translate-y-1/2 w-10 h-10 bg-white/10 hover:bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center transition-colors">
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+      </button>
+
+      <!-- Dots -->
+      <div class="absolute bottom-6 left-1/2 -translate-x-1/2 flex gap-2" id="banner-dots"></div>
+    </div>
+  </section>
+
+  <!-- ABOUT SECTION -->
+  <section class="py-20 bg-white dark:bg-slate-900/80">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="mb-12 text-center">
+        <p class="text-primary font-heading uppercase tracking-widest text-sm mb-2">About Us</p>
+        <h2 class="font-heading font-800 text-4xl md:text-5xl text-slate-900 dark:text-white">Why Shoppers Choose SakibsMart</h2>
+      </div>
+      <div class="grid md:grid-cols-3 gap-6">
+        <div class="bg-slate-50 dark:bg-slate-800 rounded-2xl p-6 border border-slate-200 dark:border-slate-700">
+          <div class="w-12 h-12 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center text-xl mb-4">⚡</div>
+          <h3 class="font-heading text-xl mb-2 text-slate-900 dark:text-white">Fast Delivery</h3>
+          <p class="text-slate-600 dark:text-slate-300 text-sm leading-relaxed">Quick dispatch and reliable delivery for a smooth shopping experience across the country.</p>
+        </div>
+        <div class="bg-slate-50 dark:bg-slate-800 rounded-2xl p-6 border border-slate-200 dark:border-slate-700">
+          <div class="w-12 h-12 rounded-full bg-amber-100 text-amber-600 flex items-center justify-center text-xl mb-4">✓</div>
+          <h3 class="font-heading text-xl mb-2 text-slate-900 dark:text-white">Trusted Quality</h3>
+          <p class="text-slate-600 dark:text-slate-300 text-sm leading-relaxed">Every product is carefully selected to balance quality, value, and real customer satisfaction.</p>
+        </div>
+        <div class="bg-slate-50 dark:bg-slate-800 rounded-2xl p-6 border border-slate-200 dark:border-slate-700">
+          <div class="w-12 h-12 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center text-xl mb-4">💬</div>
+          <h3 class="font-heading text-xl mb-2 text-slate-900 dark:text-white">Customer First</h3>
+          <p class="text-slate-600 dark:text-slate-300 text-sm leading-relaxed">Supportive service, responsive communication, and value-focused offers built around real shoppers.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PRODUCTS SECTION -->
+  <section id="products" class="py-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="mb-12">
+      <p class="text-cyan-500 font-heading uppercase tracking-widest text-sm mb-2">Gaming Collection</p>
+      <h2 class="font-heading font-800 text-4xl md:text-5xl text-slate-900 dark:text-white">Built for Players</h2>
+    </div>
+
+    <!-- Search + Filter + Sort -->
+    <div class="flex flex-col md:flex-row gap-4 mb-10">
+      <input
+        type="text"
+        id="search-input"
+        placeholder="Search products..."
+        oninput="filterProducts()"
+        class="flex-1 bg-white dark:bg-card border border-gray-200 dark:border-muted rounded-full px-6 py-3 text-sm focus:outline-none focus:border-primary placeholder-gray-500 text-gray-700 dark:text-white"
+      />
+      <select id="category-filter" onchange="filterProducts()" class="bg-white dark:bg-card border border-gray-200 dark:border-muted rounded-full px-6 py-3 text-sm focus:outline-none focus:border-primary text-gray-600 dark:text-gray-300">
+        <option value="all">All Categories</option>
+      </select>
+      <select id="sort-select" onchange="filterProducts()" class="bg-white dark:bg-card border border-gray-200 dark:border-muted rounded-full px-6 py-3 text-sm focus:outline-none focus:border-primary text-gray-600 dark:text-gray-300">
+        <option value="default">Sort By</option>
+        <option value="low-high">Price: Low to High</option>
+        <option value="high-low">Price: High to Low</option>
+        <option value="rating">Top Rated</option>
+      </select>
+    </div>
+
+    <!-- Wishlist toggle -->
+    <div class="flex gap-3 mb-8 flex-wrap">
+      <button onclick="setProductView('all')" id="view-all-btn" class="font-heading text-xs uppercase tracking-widest px-5 py-2 rounded-full border border-primary bg-primary text-white">All Products</button>
+      <button onclick="setProductView('wishlist')" id="view-wish-btn" class="font-heading text-xs uppercase tracking-widest px-5 py-2 rounded-full border border-gray-300 dark:border-muted text-gray-600 dark:text-gray-400 hover:border-primary hover:text-primary">❤ Wishlist</button>
+    </div>
+
+    <!-- Loading -->
+    <div id="products-loading" class="flex justify-center items-center py-24">
+      <div class="w-10 h-10 border-2 border-primary border-t-transparent rounded-full animate-spin"></div>
+    </div>
+
+    <!-- Product Grid -->
+    <div id="product-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 hidden"></div>
+
+    <!-- No results -->
+    <p id="no-results" class="hidden text-center text-gray-500 py-16 font-heading text-lg">No products found. Try a different search.</p>
+  </section>
+
+  <!-- REVIEWS SECTION -->
+  <section id="reviews" class="py-20 bg-gray-200 dark:bg-card">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="mb-12">
+        <p class="text-primary font-heading uppercase tracking-widest text-sm mb-2">What People Say</p>
+        <h2 class="font-heading font-800 text-4xl md:text-5xl">Customer Reviews</h2>
+      </div>
+
+      <div class="relative">
+        <div id="reviews-track" class="overflow-hidden">
+          <div id="reviews-container" class="flex transition-transform duration-500 gap-0"></div>
+        </div>
+        <button onclick="prevReview()" class="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 w-10 h-10 bg-gray-300 dark:bg-muted hover:bg-primary rounded-full flex items-center justify-center transition-colors">
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+        </button>
+        <button onclick="nextReview()" class="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 w-10 h-10 bg-gray-300 dark:bg-muted hover:bg-primary rounded-full flex items-center justify-center transition-colors">
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+        </button>
+      </div>
+
+      <div id="reviews-dots" class="flex justify-center gap-2 mt-8"></div>
+    </div>
+  </section>
+
+  <!-- CONTACT SECTION -->
+  <section id="contact" class="py-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="grid md:grid-cols-2 gap-16 items-start">
+      <div>
+        <p class="text-primary font-heading uppercase tracking-widest text-sm mb-2">Get In Touch</p>
+        <h2 class="font-heading font-800 text-4xl md:text-5xl mb-6">Contact Us</h2>
+        <p class="text-gray-600 dark:text-gray-400 mb-8 leading-relaxed">Have questions about your order or want to know more about our products? We're here to help.</p>
+        <div class="flex flex-col gap-4">
+          <div class="flex items-center gap-3 text-gray-600 dark:text-gray-400">
+            <span class="text-primary text-xl">📍</span>
+            <span>Bakalia Accessroad, Chittagong, Bangladesh</span>
+          </div>
+          <div class="flex items-center gap-3 text-gray-600 dark:text-gray-400">
+            <span class="text-primary text-xl">📧</span>
+            <span>sakibhasan0154@gmail.com</span>
+          </div>
+          <div class="flex items-center gap-3 text-gray-600 dark:text-gray-400">
+            <span class="text-primary text-xl">📞</span>
+            <span>+8801857812345</span>
+          </div>
+        </div>
+      </div>
+
+      <form id="contact-form" onsubmit="submitContact(event)" class="flex flex-col gap-4">
+        <div>
+          <input type="text" id="contact-name" placeholder="Your Name" class="w-full bg-white dark:bg-card border border-gray-200 dark:border-muted rounded-xl px-5 py-4 text-sm focus:outline-none focus:border-primary transition-colors placeholder-gray-400 text-gray-900 dark:text-white" />
+          <p id="err-name" class="text-primary text-xs mt-1 hidden">Please enter your name.</p>
+        </div>
+        <div>
+          <input type="email" id="contact-email" placeholder="Email Address" class="w-full bg-white dark:bg-card border border-gray-200 dark:border-muted rounded-xl px-5 py-4 text-sm focus:outline-none focus:border-primary transition-colors placeholder-gray-400 text-gray-900 dark:text-white" />
+          <p id="err-email" class="text-primary text-xs mt-1 hidden">Please enter a valid email.</p>
+        </div>
+        <div>
+          <textarea id="contact-msg" rows="5" placeholder="Your Message" class="w-full bg-white dark:bg-card border border-gray-200 dark:border-muted rounded-xl px-5 py-4 text-sm focus:outline-none focus:border-primary transition-colors placeholder-gray-400 text-gray-900 dark:text-white resize-none"></textarea>
+          <p id="err-msg" class="text-primary text-xs mt-1 hidden">Please enter a message.</p>
+        </div>
+        <button type="submit" class="bg-primary text-white font-heading font-600 uppercase tracking-widest text-sm px-8 py-4 rounded-xl hover:bg-red-600 transition-colors">Send Message</button>
+        <div id="contact-success" class="hidden bg-green-500/10 border border-green-500/30 text-green-400 rounded-xl px-5 py-4 text-sm font-heading">
+          ✓ Thanks! We'll get back to you within 24 hours.
+        </div>
+      </form>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="bg-white dark:bg-card border-t border-gray-200 dark:border-muted py-12">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-10 mb-10">
+        <div>
+          <a href="#home" class="font-heading font-800 text-2xl tracking-tight">Sakibs<span class="text-primary">Mart</span></a>
+          <p class="text-gray-500 mt-4 text-sm leading-relaxed">Your one-stop destination for smart shopping. Quality products, unbeatable prices.</p>
+        </div>
+        <div>
+          <h4 class="font-heading uppercase tracking-widest text-sm mb-4 text-gray-900 dark:text-white">Quick Links</h4>
+          <ul class="flex flex-col gap-2 text-sm text-gray-500">
+            <li><a href="#home" class="hover:text-primary">Home</a></li>
+            <li><a href="#products" class="hover:text-primary">Products</a></li>
+            <li><a href="#reviews" class="hover:text-primary">Reviews</a></li>
+            <li><a href="#contact" class="hover:text-primary">Contact</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="font-heading uppercase tracking-widest text-sm mb-4 text-gray-900 dark:text-white">Newsletter</h4>
+          <p class="text-gray-500 text-sm mb-3">Subscribe for exclusive deals and new arrivals.</p>
+          <div class="flex gap-2">
+            <input type="email" id="newsletter-email" placeholder="your@email.com" class="flex-1 bg-gray-100 dark:bg-muted border border-gray-200 dark:border-muted rounded-full px-4 py-2 text-sm focus:outline-none focus:border-primary placeholder-gray-500" />
+            <button onclick="subscribeNewsletter()" class="bg-primary text-white text-sm font-heading px-4 py-2 rounded-full hover:bg-red-600">Join</button>
+          </div>
+          <p id="newsletter-msg" class="text-green-400 text-xs mt-2 hidden">You're subscribed! 🎉</p>
+        </div>
+      </div>
+      <div class="border-t border-gray-200 dark:border-muted pt-8 flex flex-col sm:flex-row justify-between items-center gap-4">
+        <p class="text-gray-600 text-sm">© 2025 SakibsMart. All rights reserved.</p>
+        <button onclick="scrollToTop()" class="flex items-center gap-2 text-sm text-gray-500 hover:text-primary font-heading">
+          Back to Top
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7"/></svg>
+        </button>
+      </div>
+    </div>
+  </footer>
+
+  <!-- CART SIDEBAR -->
+  <div id="cart-overlay" class="fixed inset-0 bg-black/60 z-40 hidden" onclick="closeCart()"></div>
+  <div id="cart-sidebar" class="fixed right-0 top-0 bottom-0 w-full max-w-md bg-white dark:bg-dark border-l border-gray-200 dark:border-muted z-50 flex flex-col translate-x-full transition-transform duration-300">
+    <div class="flex items-center justify-between p-6 border-b border-gray-200 dark:border-muted">
+      <h3 class="font-heading font-700 text-xl">Your Cart</h3>
+      <button onclick="closeCart()" class="w-8 h-8 flex items-center justify-center rounded-full bg-gray-100 dark:bg-muted hover:bg-primary transition-colors text-lg">×</button>
+    </div>
+
+    <div id="cart-items" class="flex-1 overflow-y-auto p-6 flex flex-col gap-4"></div>
+
+    <div id="cart-empty" class="flex-1 flex flex-col items-center justify-center text-gray-500 hidden">
+      <span class="text-5xl mb-4">🛒</span>
+      <p class="font-heading">Your cart is empty</p>
+    </div>
+
+    <!-- Cart Summary -->
+    <div id="cart-summary" class="border-t border-gray-200 dark:border-muted p-6 hidden">
+      <div class="flex gap-2 mb-4">
+        <input type="text" id="coupon-input" placeholder="Coupon code (SAKIB10)" class="flex-1 bg-gray-100 dark:bg-card border border-gray-200 dark:border-muted rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:border-primary placeholder-gray-500" />
+        <button onclick="applyCoupon()" class="bg-primary text-white font-heading text-xs uppercase tracking-widest px-4 py-2.5 rounded-lg hover:bg-red-600">Apply</button>
+      </div>
+      <p id="coupon-msg" class="text-xs mb-4 hidden"></p>
+
+      <div class="flex flex-col gap-2 text-sm text-gray-400 mb-4">
+        <div class="flex justify-between"><span>Subtotal</span><span id="cart-subtotal">৳0</span></div>
+        <div class="flex justify-between"><span>Delivery</span><span id="cart-delivery">৳60</span></div>
+        <div class="flex justify-between"><span>Shipping</span><span id="cart-shipping">৳40</span></div>
+        <div id="discount-row" class="flex justify-between text-green-400 hidden"><span>Discount</span><span id="cart-discount">-৳0</span></div>
+        <div class="flex justify-between text-gray-900 dark:text-white font-heading text-base border-t border-gray-200 dark:border-muted pt-2 mt-1">
+          <span>Total</span><span id="cart-total">৳0</span>
+        </div>
+      </div>
+
+      <div id="balance-warning" class="text-primary text-xs font-heading mb-3 hidden">⚠ Insufficient balance. Please add money.</div>
+
+      <button onclick="checkout()" id="checkout-btn" class="w-full bg-primary text-white font-heading uppercase tracking-widest text-sm py-4 rounded-xl hover:bg-red-600">Checkout</button>
+    </div>
+  </div>
+
+  <!-- ADD MONEY MODAL -->
+  <div id="add-money-overlay" class="fixed inset-0 bg-black/60 z-50 hidden flex items-center justify-center" onclick="closeAddMoney()">
+    <div class="bg-white dark:bg-card border border-gray-200 dark:border-muted rounded-2xl p-8 w-full max-w-sm m-4" onclick="event.stopPropagation()">
+      <h3 class="font-heading font-700 text-xl mb-2">Add Balance</h3>
+      <p class="text-gray-600 dark:text-gray-400 text-sm mb-6">Current balance: <span class="text-accent font-heading" id="modal-balance">৳1000</span></p>
+      <div class="flex gap-3 mb-4 flex-wrap">
+        <button onclick="quickAdd(500)" class="flex-1 bg-gray-100 dark:bg-muted hover:bg-primary transition-colors rounded-lg py-2.5 text-sm font-heading">+৳500</button>
+        <button onclick="quickAdd(1000)" class="flex-1 bg-gray-100 dark:bg-muted hover:bg-primary transition-colors rounded-lg py-2.5 text-sm font-heading">+৳1000</button>
+        <button onclick="quickAdd(2000)" class="flex-1 bg-gray-100 dark:bg-muted hover:bg-primary transition-colors rounded-lg py-2.5 text-sm font-heading">+৳2000</button>
+      </div>
+      <div class="flex gap-2">
+        <input type="number" id="custom-amount" placeholder="Custom amount" class="flex-1 bg-gray-100 dark:bg-muted border border-gray-200 dark:border-muted rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:border-primary transition-colors placeholder-gray-500" />
+        <button onclick="addCustomAmount()" class="bg-primary text-white font-heading text-sm px-4 py-2.5 rounded-lg hover:bg-red-600 transition-colors">Add</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- PRODUCT DETAIL MODAL -->
+  <div id="product-modal-overlay" class="fixed inset-0 bg-black/70 z-50 hidden flex items-center justify-center" onclick="closeProductModal()">
+    <div id="product-modal" class="bg-white dark:bg-card border border-gray-200 dark:border-muted rounded-2xl p-6 w-full max-w-lg m-4 max-h-[90vh] overflow-y-auto" onclick="event.stopPropagation()">
+      <button onclick="closeProductModal()" class="float-right w-8 h-8 flex items-center justify-center rounded-full bg-gray-100 dark:bg-muted hover:bg-primary transition-colors text-lg">×</button>
+      <div id="modal-content"></div>
+    </div>
+  </div>
+
+  <!-- LOGIN MODAL -->
+  <div id="login-modal-overlay" class="fixed inset-0 bg-black/60 z-50 items-center justify-center" style="display:none" onclick="closeLoginModal()">
+    <div class="bg-white dark:bg-card border border-gray-200 dark:border-muted rounded-2xl p-8 w-full max-w-sm m-4" onclick="event.stopPropagation()">
+      <h3 class="font-heading font-700 text-xl mb-1">Welcome Back</h3>
+      <p class="text-gray-600 dark:text-gray-400 text-sm mb-6">Sign in to your SakibsMart account</p>
+      <form onsubmit="doLogin(event)" class="flex flex-col gap-4">
+        <div>
+          <input id="login-username" type="text" placeholder="Username" autocomplete="username"
+            class="w-full bg-gray-100 dark:bg-muted border border-gray-200 dark:border-muted rounded-xl px-5 py-3 text-sm focus:outline-none focus:border-primary placeholder-gray-500 text-gray-900 dark:text-white" />
+        </div>
+        <div>
+          <input id="login-password" type="password" placeholder="Password" autocomplete="current-password"
+            class="w-full bg-gray-100 dark:bg-muted border border-gray-200 dark:border-muted rounded-xl px-5 py-3 text-sm focus:outline-none focus:border-primary placeholder-gray-500 text-gray-900 dark:text-white" />
+        </div>
+        <p id="login-error" class="hidden text-primary text-xs font-heading">✗ Incorrect username or password.</p>
+        <button type="submit" class="w-full bg-primary text-white font-heading uppercase tracking-widest text-sm py-3 rounded-xl hover:bg-red-600">Login</button>
+        <p class="text-gray-500 text-xs text-center">Demo — sakibsmart / sakib123 &nbsp;|&nbsp; user / pass123</p>
+      </form>
+    </div>
+  </div>
+
+  <script src="js/banner.js"></script>
+  <script src="js/products.js"></script>
+  <script src="js/cart.js"></script>
+  <script src="js/reviews.js"></script>
+  <script src="js/login.js"></script>
+  <script src="js/ui.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
