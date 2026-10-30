@@ -4,7 +4,7 @@ let products = [];
 let wishlist = JSON.parse(localStorage.getItem('sakibsmart_wishlist') || '[]');
 let view = 'all';
 
-const gamingFallbackProducts = [
+const storeFallbackProducts = [
   {
     id: 101,
     title: 'RGB Mechanical Keyboard',
@@ -58,35 +58,174 @@ const gamingFallbackProducts = [
     description: 'High-back chair with lumbar support, recline function, and breathable fabric for long sessions.',
     image: 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=900&q=80',
     rating: { rate: 4.9, count: 204 }
+  },
+  {
+    id: 107,
+    title: 'RTX 4080 Gaming Graphics Card',
+    price: 185000,
+    category: 'Gaming',
+    description: 'High-performance graphics card built for 4K gaming, streaming, and smooth ultra settings.',
+    image: 'https://images.unsplash.com/photo-1591799264318-7e6ef8ddb7ea?auto=format&fit=crop&w=900&q=80',
+    rating: { rate: 4.9, count: 368 }
+  },
+  {
+    id: 108,
+    title: 'Steam Deck OLED Console',
+    price: 68000,
+    category: 'Gaming',
+    description: 'Portable all-in-one handheld gaming console with vivid display and lightweight design.',
+    image: 'https://images.unsplash.com/photo-1606144042614-b2417e99c4e3?auto=format&fit=crop&w=900&q=80',
+    rating: { rate: 4.8, count: 255 }
+  },
+  {
+    id: 201,
+    title: '4K Smart LED TV',
+    price: 52000,
+    category: 'Electronics',
+    description: 'Ultra HD smart television with rich colors, voice control, and cinematic viewing experience.',
+    image: 'https://images.unsplash.com/photo-1593359677879-a4bb92f829d1?auto=format&fit=crop&w=900&q=80',
+    rating: { rate: 4.7, count: 231 }
+  },
+  {
+    id: 202,
+    title: 'Double Door Refrigerator',
+    price: 48000,
+    category: 'Electronics',
+    description: 'Spacious frost-free fridge with efficient cooling, smart storage, and energy-saving design.',
+    image: 'https://images.unsplash.com/photo-1585518419759-7fe2e0fbf8a6?auto=format&fit=crop&w=900&q=80',
+    rating: { rate: 4.6, count: 189 }
+  },
+  {
+    id: 203,
+    title: 'Inverter Air Conditioner',
+    price: 62000,
+    category: 'Electronics',
+    description: 'Fast cooling inverter AC with eco mode, silent operation, and modern smart controls.',
+    image: 'https://images.unsplash.com/photo-1581578731548-c64695cc6952?auto=format&fit=crop&w=900&q=80',
+    rating: { rate: 4.8, count: 274 }
+  },
+  {
+    id: 204,
+    title: 'Front Load Washing Machine',
+    price: 44000,
+    category: 'Electronics',
+    description: 'Compact energy-efficient washing machine with multiple wash programs and quiet performance.',
+    image: 'https://images.unsplash.com/photo-1626806787461-102c1bfaaea1?auto=format&fit=crop&w=900&q=80',
+    rating: { rate: 4.5, count: 176 }
+  },
+  {
+    id: 205,
+    title: 'Bluetooth Sound Bar',
+    price: 21000,
+    category: 'Electronics',
+    description: 'Slim premium sound bar with crisp audio, deep bass, and seamless wireless connectivity.',
+    image: 'https://images.unsplash.com/photo-1546435770-a3e426bf472b?auto=format&fit=crop&w=900&q=80',
+    rating: { rate: 4.7, count: 214 }
+  },
+  {
+    id: 206,
+    title: 'Home Theater Speaker Set',
+    price: 29000,
+    category: 'Electronics',
+    description: 'Immersive surround audio setup for movies, music, and game nights at home.',
+    image: 'https://images.unsplash.com/photo-1518444065439-e933c06ce9cd?auto=format&fit=crop&w=900&q=80',
+    rating: { rate: 4.7, count: 198 }
+  },
+  {
+    id: 301,
+    title: 'Premium Whey Protein',
+    price: 6500,
+    category: 'Fitness',
+    description: 'High-quality whey protein for muscle recovery, lean gains, and daily fitness support.',
+    image: 'https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?auto=format&fit=crop&w=900&q=80',
+    rating: { rate: 4.8, count: 312 }
+  },
+  {
+    id: 302,
+    title: 'Creatine Monohydrate',
+    price: 4200,
+    category: 'Fitness',
+    description: 'Fast-absorbing creatine formula designed to boost strength, stamina, and performance.',
+    image: 'https://images.unsplash.com/photo-1517836357463-d25dfeac3438?auto=format&fit=crop&w=900&q=80',
+    rating: { rate: 4.7, count: 287 }
+  },
+  {
+    id: 303,
+    title: 'Pre-Workout Energy Booster',
+    price: 5500,
+    category: 'Fitness',
+    description: 'Explosive energy blend with focus support to power your workouts and maximize intensity.',
+    image: 'https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&w=900&q=80',
+    rating: { rate: 4.6, count: 219 }
+  },
+  {
+    id: 304,
+    title: 'Mass Gainer Protein',
+    price: 7200,
+    category: 'Fitness',
+    description: 'Calorie-rich mass gainer for muscle building, recovery, and healthy weight gain support.',
+    image: 'https://images.unsplash.com/photo-1571902943202-507ec2618e8f?auto=format&fit=crop&w=900&q=80',
+    rating: { rate: 4.8, count: 245 }
+  },
+  {
+    id: 305,
+    title: 'BCAA Recovery Formula',
+    price: 4800,
+    category: 'Fitness',
+    description: 'Recovery support blend to reduce post-workout fatigue and help maintain lean muscle.',
+    image: 'https://images.unsplash.com/photo-1517838277536-f5f99be501cd?auto=format&fit=crop&w=900&q=80',
+    rating: { rate: 4.5, count: 207 }
+  },
+  {
+    id: 401,
+    title: 'Cedar & Citrus Eau de Parfum',
+    price: 5800,
+    category: 'Perfume',
+    description: 'A balanced fragrance with bright citrus opening notes and a warm cedarwood finish.',
+    image: 'https://images.unsplash.com/photo-1594035910387-fea47794261f?auto=format&fit=crop&w=900&q=80',
+    rating: { rate: 4.7, count: 184 }
+  },
+  {
+    id: 402,
+    title: 'Rose & Jasmine Eau de Parfum',
+    price: 6400,
+    category: 'Perfume',
+    description: 'An elegant floral blend of rose, jasmine, and soft musk for everyday wear.',
+    image: 'https://images.unsplash.com/photo-1541643600914-78b084683601?auto=format&fit=crop&w=900&q=80',
+    rating: { rate: 4.8, count: 226 }
+  },
+  {
+    id: 403,
+    title: 'Amber Woods Eau de Parfum',
+    price: 7200,
+    category: 'Perfume',
+    description: 'A long-lasting warm fragrance with amber, woods, and subtle spice notes.',
+    image: 'https://images.unsplash.com/photo-1592945403244-b3fbafd7f539?auto=format&fit=crop&w=900&q=80',
+    rating: { rate: 4.6, count: 153 }
   }
 ];
 
+const preferredCategories = ['Gaming', 'Electronics', 'Fitness', 'Perfume'];
+
 async function loadProducts() {
-  try {
-    let res = await fetch('https://fakestoreapi.com/products');
-    if (!res.ok) throw new Error('API error');
-
-    let fetched = await res.json();
-    const gamingKeywords = ['gaming', 'mouse', 'keyboard', 'headphone', 'controller', 'monitor', 'chair'];
-    const filtered = fetched.filter(item => {
-      const haystack = `${item.title} ${item.category} ${item.description}`.toLowerCase();
-      return gamingKeywords.some(keyword => haystack.includes(keyword));
-    });
-
-    products = (filtered.length ? filtered : gamingFallbackProducts)
-      .map(item => ({ ...item, price: +(item.price * 110).toFixed(0) }));
-    populateCategories();
-    renderProducts(products);
-  } catch (err) {
-    products = gamingFallbackProducts.map(item => ({ ...item }));
-    populateCategories();
-    renderProducts(products);
-  }
+  products = storeFallbackProducts.map(item => ({ ...item }));
+  populateCategories();
+  renderProducts(products);
 }
 
 function populateCategories() {
   let cats = [...new Set(products.map(item => item.category))];
+  cats = cats.sort((a, b) => {
+    const ia = preferredCategories.indexOf(a);
+    const ib = preferredCategories.indexOf(b);
+    if (ia === -1 && ib === -1) return a.localeCompare(b);
+    if (ia === -1) return 1;
+    if (ib === -1) return -1;
+    return ia - ib;
+  });
+
   let sel = document.getElementById('category-filter');
+  sel.innerHTML = '<option value="all">All Categories</option>';
   cats.forEach(cat => {
     let opt = document.createElement('option');
     opt.value = cat;
